@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/root/liujingsong/yolov5_pybind11/build",
+  "command": "/usr/bin/g++ -Dyolo_ort_EXPORTS -I/root/liujingsong/yolov5_pybind11/include -I/root/onnxruntime/include/onnxruntime/core/session -isystem /usr/local/include/opencv4 -isystem /root/miniconda3/include/python3.11 -g -fPIC -fvisibility=hidden -o CMakeFiles/yolo_ort.dir/src/main.cpp.o -c /root/liujingsong/yolov5_pybind11/src/main.cpp",
+  "file": "/root/liujingsong/yolov5_pybind11/src/main.cpp"
+},
+{
+  "directory": "/root/liujingsong/yolov5_pybind11/build",
+  "command": "/usr/bin/g++ -Dyolo_ort_EXPORTS -I/root/liujingsong/yolov5_pybind11/include -I/root/onnxruntime/include/onnxruntime/core/session -isystem /usr/local/include/opencv4 -isystem /root/miniconda3/include/python3.11 -g -fPIC -fvisibility=hidden -o CMakeFiles/yolo_ort.dir/src/detector.cpp.o -c /root/liujingsong/yolov5_pybind11/src/detector.cpp",
+  "file": "/root/liujingsong/yolov5_pybind11/src/detector.cpp"
+},
+{
+  "directory": "/root/liujingsong/yolov5_pybind11/build",
+  "command": "/usr/bin/g++ -Dyolo_ort_EXPORTS -I/root/liujingsong/yolov5_pybind11/include -I/root/onnxruntime/include/onnxruntime/core/session -isystem /usr/local/include/opencv4 -isystem /root/miniconda3/include/python3.11 -g -fPIC -fvisibility=hidden -o CMakeFiles/yolo_ort.dir/src/utils.cpp.o -c /root/liujingsong/yolov5_pybind11/src/utils.cpp",
+  "file": "/root/liujingsong/yolov5_pybind11/src/utils.cpp"
+}
+]
