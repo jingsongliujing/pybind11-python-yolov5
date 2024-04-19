@@ -3,17 +3,18 @@
 ## 项目背景
 
 #### 1.现状
-##### 以往的项目所使用的编程语言是Python作为开发语言，但是实际上Python的执行效率低和占用内存大，因此使用c++做模型推理似乎是一个好的选择。
+* 以往的项目所使用的编程语言是Python作为开发语言，但是实际上Python的执行效率低和占用内存大，因此使用c++做模型推理似乎是一个好的选择。
 
 
 
-##### 这让我想到了使用Cython,Cython使用了用C编写的独立共享库，并将它们转换为Python模块。实际还是在Python上写库。
-##### PyBind11相反，它提供C++ API，写的是C++代码库，然后转成Python模块。
-##### Pybind11只支持C++，使用C++ 11特性。
-##### 此外，Pybind11的另一个优点是可以轻松处理来自Python的底层数据和类型(如Numpy array)。对于计算机视觉代码库的编写，无疑是一个好的选择。
-##### 本项目把yolov5核心模块，预处理，前处理，后处理用C++来写，使用pybind11把C++ 库/代码包装为可以在 Python 中使用的模块（本项目把类别，坐标，置信度封装成一个类与Python绑定），供Python调用，这样就可以大大提高代码的执行效率。
+* 这让我想到了使用Cython,Cython使用了用C编写的独立共享库，并将它们转换为Python模块。实际还是在Python上写库。
+* PyBind11相反，它提供C++ API，写的是C++代码库，然后转成Python模块。
+* Pybind11只支持C++，使用C++ 11特性。
+* 此外，Pybind11的另一个优点是可以轻松处理来自Python的底层数据和类型(如Numpy array)。对于计算机视觉代码库的编写，无疑是一个好的选择。
+* 本项目把yolov5核心模块，预处理，前处理，后处理用C++来写，使用pybind11把C++ 库/代码包装为可以在 Python 中使用的模块（本项目把类别，坐标，置信度封装成一个类与Python绑定），供Python调用，这样就可以大大提高代码的执行效率。
 
-#### 本项目基于：https://github.com/itsnine/yolov5-onnxruntime 来进行修改，增加pybind11进行封装，封装yolov5核心流程，使用C++版本的onnxruntime,opencv,python仅需要import yolo_ort,通过配置模型，数据，类别来进行调用。
+* 本项目基于：https://github.com/itsnine/yolov5-onnxruntime 来进行修改，
+* 增加pybind11进行封装，封装yolov5核心流程，使用C++版本的onnxruntime,opencv,python仅需要import yolo_ort,通过配置模型，数据，类别来进行调用。
 
 #### 第一次尝试用C++写视觉类工程项目，难免出现代码内存泄漏等风险，代码丑陋，勿喷！！！
 ```
@@ -63,10 +64,12 @@ make -j7
 ```
 
 ## onnxruntime安装（编译时间较长，耐心等待）
+```
 git clone --single-branch --branch rel-1.7.0 https://github.com/microsoft/onnxruntime.git
 ./build.sh --skip_tests --config Release --build_shared_lib --parallel
-
+```
 ## pybind11安装（编译时间较长，耐心等待）
+```
 https://blog.csdn.net/qq_27149279/article/details/121352696
 
 export PYTHONPATH=/root/miniconda3/envs/resa/lib/python3.7/site-packages
@@ -74,7 +77,7 @@ export PYTHONPATH=/root/miniconda3/envs/resa/lib/python3.7/site-packages
 
 g++ your_source_files -o your_executable -L/path/to/onnxruntime/lib -lonnxruntime
 
-
+```
 
 ## 程序编译
 #### 使用makefile编译
