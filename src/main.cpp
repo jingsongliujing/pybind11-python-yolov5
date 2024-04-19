@@ -9,55 +9,15 @@
 
 namespace py = pybind11;
 
-std::vector<Detection> infer(std::string modelPath, std::string imagePath, std::string classNamesPath){
-    const float confThreshold = 0.3f;
-    const float iouThreshold = 0.4f;
-
-    bool isGPU = false;
-    const std::vector<std::string> classNames = utils::loadNames(classNamesPath);
-
-    if (classNames.empty())
-    {
-        std::cerr << "Error: Empty class names file." << std::endl;
-        throw std::runtime_error("Empty class names file.");
-    }
-
-    YOLODetector detector {nullptr};
-    cv::Mat image;
-    std::vector<Detection> result;
-
-    try
-    {
-        detector = YOLODetector(modelPath, isGPU, cv::Size(640, 640));
-        std::cout << "模型初始化完成" << std::endl;
-
-        image = cv::imread(imagePath);
-        auto start = std::chrono::high_resolution_clock::now();
-       // 模型推理
-        result = detector.detect(image, confThreshold, iouThreshold);
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsed = end - start;
-        std::cout << "推理耗时： " << elapsed.count() << " seconds." << std::endl;
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-        throw;
-    }
-
-    // 调用画图函数
-
-    // utils::visualizeDetection(image, result, classNames);
-
-    // cv::imwrite("result.jpg", image);
-    return result;
-}
-
-// 新增模型初始化
 class YOLODetectorWrapper {
 public:
     YOLODetectorWrapper(const std::string& modelPath, bool useGPU, const cv::Size& inputSize = cv::Size(640, 640))
         : detector_(modelPath, useGPU, inputSize) {}
+
+    static std::vector<Detection> infer_wrapper(const std::string& imagePath, float confThreshold = 0.3f, float iouThreshold = 0.4f) {
+        YOLODetectorWrapper detector("path/to/model", false); // 这里需要根据实际情况修改模型路径和是否使用GPU
+        return detector.infer(imagePath, confThreshold, iouThreshold);
+    }
 
     std::vector<Detection> infer(const std::string& imagePath, float confThreshold = 0.3f, float iouThreshold = 0.4f) {
         try {
@@ -81,9 +41,10 @@ private:
     YOLODetector detector_;
 };
 
+
 PYBIND11_MODULE(yolo_ort, m){
     m.doc() = "pybind11 example yolov5 infer";
-    m.def("infer", &infer, "example yolov5 infer", py::arg("modelPath"), py::arg("imagePath"), py::arg("classNamesPath"));
+    m.def("infer", &YOLODetectorWrapper::infer_wrapper, "example yolov5 infer", py::arg("imagePath"), py::arg("confThreshold") = 0.3f, py::arg("iouThreshold") = 0.4f);
 
     py::class_<YOLODetectorWrapper>(m, "YOLODetector")
         .def(py::init<const std::string&, bool>(), py::arg("modelPath"), py::arg("useGPU") = false)
