@@ -45,6 +45,7 @@ PYBIND11_MODULE(yolo_ort, m){
 ## pybind11 C++ YOLO v5 ONNX Runtime 目标检测推理
 
 ## 依赖:
+- python 3.6（目前上传的yolo_ort.so只支持3.6，需要其他版本的需要重新在相关解释器上进行编译）
 - OpenCV 4.x
 - ONNXRuntime 1.7+
 - OS:  Windows 10 ,Ubuntu 20.04,centos7
@@ -107,7 +108,7 @@ import yolo_ort
 detector = yolo_ort.YOLODetectorWrapper("models/yolov5s.onnx", True)
 
 # 读取图像
-image = "/root/liujingsong/yolov5_pybind11/images/bus.jpg"
+image = "./images/bus.jpg"
 
 # 进行推理
 result = detector.infer(image, 0.5, 0.5)
